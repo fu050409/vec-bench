@@ -2,6 +2,7 @@
     "words": [
         "ecovec",
         "ecow",
-        "smallvec"
+        "smallvec",
+        "unittests"
     ]
 }
