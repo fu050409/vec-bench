@@ -10,6 +10,47 @@ cargo bench
 
 ## Results
 
+Benchmarks based on `criterion-rs`.
+
+In this benchmark, we compare the performance of `Vec`, `SmallVec`, and `EcoVec` in both scenarios
+with a small and large number of elements.
+
+Here's a summary of the performance differences between `Vec`, `SmallVec`, and `EcoVec` based on various operations:
+
+| Operation               | Vec           | SmallVec      | EcoVec        |
+| ----------------------- | ------------- | ------------- | ------------- |
+| **Push Small**          | 545.93 ns     | **191.09 ns** | 1.0947 µs     |
+| **Push Large**          | 26.142 µs     | **20.923 µs** | 58.836 µs     |
+| **Random Access Small** | 8.6471 ns     | **8.5620 ns** | 8.5393 ns     |
+| **Random Access Large** | **8.8973 ns** | 8.6310 ns     | 8.7271 ns     |
+| **Remove Small**        | 2.8257 µs     | **2.3943 µs** | 3.4883 µs     |
+| **Remove Large**        | 12.387 ms     | **12.325 ms** | 12.364 ms     |
+| **Clone Small**         | 31.911 ns     | 481.43 ns     | **27.158 ns** |
+| **Clone Large**         | 3.8817 µs     | 7.6483 µs     | **27.154 ns** |
+
+### Observations and Characteristics
+
+- **Push Operation**
+  - For small data, `SmallVec` is the fastest, about **2.85x faster** than `Vec`, while `EcoVec` is significantly slower.
+  - For large data, `SmallVec` remains faster than `Vec`, while `EcoVec` performs the worst.
+- **Random Access**
+  - For small data, `SmallVec` is slightly faster, but the difference with `Vec` and `EcoVec` is negligible.
+  - For large data, `Vec` is the fastest, followed by `EcoVec`, with `SmallVec` being the slowest.
+- **Remove Operation**
+  - For small data, `SmallVec` performs the best, followed by `Vec`, with `EcoVec` being the slowest.
+  - For large data, `SmallVec` still slightly outperforms `Vec`, while `EcoVec` has similar performance.
+- **Clone Operation**
+  - For small data, `EcoVec` is the fastest, followed by `Vec`, with `SmallVec` being the slowest.
+  - For large data, `EcoVec` is dramatically faster than both `Vec` and `SmallVec`, likely due to internal optimizations.
+
+### Conclusion
+
+- **`SmallVec` is ideal for small data** since it performs best in push and remove operations.
+- **`Vec` is better for handling large data**, especially in random access and large push operations.
+- **`EcoVec` excels at cloning**, but its push and remove performance are significantly weaker.
+
+## Detailed Results
+
 The results below are from a Arch Linux laptop machine with an Intel i9-13900H CPU.
 
 Ignore the performance changes, these changes are due to the benchmarking environment.
